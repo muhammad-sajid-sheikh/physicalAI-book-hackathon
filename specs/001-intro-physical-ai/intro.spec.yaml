@@ -1,0 +1,4 @@
+chapter_id: intro
+module: Front Matter
+depends_on: none
+produces: MDX chapter file under /docs/introduction.mdx
