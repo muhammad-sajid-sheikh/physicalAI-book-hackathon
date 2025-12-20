@@ -6,25 +6,47 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
+  --ifm-color-primary: #1a73e8;          /* Modern blue primary */
+  --ifm-color-primary-dark: #1865d0;     /* Darker blue */
+  --ifm-color-primary-darker: #175db9;   /* Even darker blue */
+  --ifm-color-primary-darkest: #134c99;  /* Darkest blue */
+  --ifm-color-primary-light: #2a80eb;    /* Light blue */
+  --ifm-color-primary-lighter: #3a8bec;  /* Lighter blue */
+  --ifm-color-primary-lightest: #5b9dec; /* Lightest blue */
+
+  /* Typography improvements */
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-font-size-base: 17px;
+  --ifm-line-height-base: 1.6;
+  --ifm-code-font-size: 90%;
+
+  /* Spacing improvements */
+  --ifm-spacing-horizontal: 1.5rem;
+  --ifm-spacing-vertical: 1.5rem;
+
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Additional code block styling for better readability */
+code {
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+pre code {
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #4285f4;          /* Lighter blue for dark mode */
+  --ifm-color-primary-dark: #2a75f3;     /* Darker variant */
+  --ifm-color-primary-darker: #1a6bf2;   /* Even darker */
+  --ifm-color-primary-darkest: #0d5de0;  /* Darkest */
+  --ifm-color-primary-light: #5a95f5;    /* Light variant */
+  --ifm-color-primary-lighter: #73a5f7;  /* Lighter variant */
+  --ifm-color-primary-lightest: #8cb5f8; /* Lightest */
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }

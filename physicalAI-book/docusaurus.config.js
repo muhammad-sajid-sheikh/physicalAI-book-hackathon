@@ -51,6 +51,7 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          breadcrumbs: true,
         },
         blog: {
           showReadingTime: true,
@@ -94,6 +95,29 @@ const config = {
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Tutorial',
+          },
+          {
+            type: 'dropdown',
+            label: 'Modules',
+            position: 'left',
+            items: [
+              {
+                label: 'Module 1 - Robotic Nervous System (ROS 2)',
+                to: '/docs/module-1/index',
+              },
+              {
+                label: 'Module 2 - The Digital Twin (Gazebo & Unity)',
+                to: '/docs/module-2/index',
+              },
+              {
+                label: 'Module 3 - The AI-Robot Brain (NVIDIA Isaac™)',
+                to: '/docs/module-3/index',
+              },
+              {
+                label: 'Module 4 - Vision-Language-Action (VLA)',
+                to: '/docs/module-04/index',
+              },
+            ],
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
