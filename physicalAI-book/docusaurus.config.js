@@ -102,20 +102,24 @@ const config = {
             position: 'left',
             items: [
               {
+                type: 'doc',
+                docId: 'module-1/index',
                 label: 'Module 1 - Robotic Nervous System (ROS 2)',
-                to: '/docs/module-1/index',
               },
               {
-                label: 'Module 2 - The Digital Twin (Gazebo & Unity)',
-                to: '/docs/module-2/index',
+                type: 'doc',
+                docId: 'module-2/index',
+                label: 'Module 2 - The Digital Twin (Gazebo & Unity)'
               },
               {
+                type: 'doc',
+                docId: 'module-3/index',
                 label: 'Module 3 - The AI-Robot Brain (NVIDIA Isaac™)',
-                to: '/docs/module-3/index',
               },
               {
+                type: 'doc',
+                docId: 'module-04/index',
                 label: 'Module 4 - Vision-Language-Action (VLA)',
-                to: '/docs/module-04/index',
               },
             ],
           },

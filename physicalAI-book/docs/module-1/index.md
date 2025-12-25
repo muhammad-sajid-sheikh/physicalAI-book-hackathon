@@ -1,4 +1,5 @@
 ---
+id: index
 sidebar_position: 1
 title: 'Module 1 - Robotic Nervous System (ROS 2)'
 ---

@@ -1,4 +1,5 @@
 ---
+id: index
 sidebar_position: 1
 title: 'Module 3 - The AI-Robot Brain (NVIDIA Isaac™)'
 ---

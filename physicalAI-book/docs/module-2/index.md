@@ -1,4 +1,5 @@
 ---
+id: index
 sidebar_position: 1
 title: 'Module 2 - The Digital Twin (Gazebo & Unity)'
 ---
