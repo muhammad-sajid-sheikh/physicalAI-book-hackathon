@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: Docusaurus Content Ingestion API
+  description: API for ingesting Docusaurus documentation content, generating embeddings, and storing in vector database
+  version: 1.0.0
+paths:
+  /ingest:
+    post:
+      summary: Ingest content from Docusaurus URLs
+      description: Process Docusaurus documentation URLs, extract content, generate embeddings, and store in vector database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urls:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                  description: List of Docusaurus documentation URLs to process
+                config:
+                  type: object
+                  properties:
+                    chunk_size_tokens:
+                      type: integer
+                      default: 512
+                      description: Target size for text chunks in tokens
+                    chunk_overlap_percentage:
+                      type: number
+                      default: 0.2
+                      description: Percentage overlap between chunks
+                    batch_size:
+                      type: integer
+                      default: 10
+                      description: Number of chunks to process in each batch
+                  description: Configuration parameters for processing
+              required:
+                - urls
+      responses:
+        '200':
+          description: Ingestion process completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [success, partial, error]
+                  processed_count:
+                    type: integer
+                    description: Number of URLs successfully processed
+                  failed_count:
+                    type: integer
+                    description: Number of URLs that failed processing
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                        status:
+                          type: string
+                          enum: [success, error]
+                        error_message:
+                          type: string
+                        chunks_processed:
+                          type: integer
+                        vectors_stored:
+                          type: integer
+        '400':
+          description: Invalid input parameters
+        '500':
+          description: Internal server error during processing
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Check the health status of the ingestion service
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy]
+                  timestamp:
+                    type: string
+                    format: date-time

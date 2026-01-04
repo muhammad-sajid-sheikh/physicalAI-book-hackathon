@@ -1,0 +1,123 @@
+# API Contract: RAG FastAPI Integration
+
+## Overview
+This document defines the API contract for the FastAPI server that integrates with the RAG agent for frontend-backend communication.
+
+## API Endpoints
+
+### 1. Query Endpoint
+**Endpoint**: `POST /api/query`
+
+**Description**: Process a user query using the RAG agent and return a response based on retrieved book content.
+
+**Request**:
+```json
+{
+  "query": "string (required) - The user's question or query",
+  "top_k": "integer (optional) - Number of content chunks to retrieve (default: 5)",
+  "temperature": "number (optional) - Response temperature (default: 0.1)"
+}
+```
+
+**Response**:
+```json
+{
+  "answer": "string - The agent's response to the query",
+  "sources": [
+    {
+      "title": "string - Document title",
+      "url": "string - Source URL",
+      "similarity_score": "number - Relevance score",
+      "chunk_id": "string - Unique chunk identifier",
+      "document_id": "string - Document identifier"
+    }
+  ],
+  "success": "boolean - Whether the query was processed successfully",
+  "error": "string (optional) - Error message if processing failed",
+  "performance": {
+    "total_duration": "number - Total time in seconds",
+    "retrieve_duration": "number - Time spent retrieving in seconds",
+    "generate_duration": "number - Time spent generating in seconds"
+  }
+}
+```
+
+**Error Response**:
+```json
+{
+  "answer": "",
+  "sources": [],
+  "success": false,
+  "error": "string - Error message",
+  "performance": null
+}
+```
+
+**HTTP Status Codes**:
+- 200: Query processed successfully
+- 400: Invalid request parameters
+- 422: Validation error
+- 500: Internal server error
+
+### 2. Health Check
+**Endpoint**: `GET /health`
+
+**Description**: Check the health status of the RAG API service.
+
+**Response**:
+```json
+{
+  "status": "string - 'healthy' or 'unhealthy'",
+  "timestamp": "string - ISO 8601 timestamp",
+  "services": {
+    "openai": "boolean - OpenAI API connectivity status",
+    "qdrant": "boolean - Qdrant connectivity status",
+    "rag_agent": "boolean - RAG agent initialization status"
+  }
+}
+```
+
+## Data Models
+
+### QueryRequest
+- **query**: string (required) - The user's question or query text
+- **top_k**: integer (optional, default: 5) - Number of content chunks to retrieve
+- **temperature**: number (optional, default: 0.1) - Response temperature
+
+### QueryResponse
+- **answer**: string - The agent's response to the query
+- **sources**: array of Source objects - Provenance information
+- **success**: boolean - Whether the query was processed successfully
+- **error**: string (optional) - Error message if processing failed
+- **performance**: PerformanceMetrics object (optional) - Timing information
+
+### Source
+- **title**: string - Document title
+- **url**: string - Source URL
+- **similarity_score**: number - Relevance score
+- **chunk_id**: string - Chunk identifier
+- **document_id**: string - Document identifier
+
+### PerformanceMetrics
+- **total_duration**: number - Total processing time in seconds
+- **retrieve_duration**: number - Content retrieval time in seconds
+- **generate_duration**: number - Response generation time in seconds
+
+## Validation Rules
+- **QueryRequest.query**: Required, non-empty string
+- **QueryRequest.top_k**: Optional, integer between 1 and 10
+- **QueryRequest.temperature**: Optional, number between 0 and 1
+
+## Authentication
+No authentication required for development setup (may be added for production).
+
+## Rate Limiting
+No rate limiting for development setup (may be added for production).
+
+## Error Codes
+- `INVALID_QUERY`: Query parameter is missing or invalid
+- `RAG_AGENT_UNAVAILABLE`: RAG agent service is not available
+- `RETRIEVAL_FAILED`: Failed to retrieve content from Qdrant
+- `GENERATION_FAILED`: Failed to generate response from OpenAI
+- `CONNECTION_ERROR`: Unable to connect to required services
+- `VALIDATION_ERROR`: Request validation failed

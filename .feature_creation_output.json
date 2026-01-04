@@ -1,0 +1,5 @@
+{
+  "BRANCH_NAME": "002-rag-fastapi-integration",
+  "SPEC_FILE": "specs/002-rag-fastapi-integration/spec.md",
+  "FEATURE_DIR": "specs/002-rag-fastapi-integration"
+}

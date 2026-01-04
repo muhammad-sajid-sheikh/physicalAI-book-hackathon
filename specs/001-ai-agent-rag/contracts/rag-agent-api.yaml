@@ -1,0 +1,139 @@
+# API Contract: RAG Agent Service
+
+## Overview
+This document defines the API contract for the Retrieval-Augmented Generation (RAG) Agent service that integrates OpenAI Agent SDK with Qdrant retrieval.
+
+## API Endpoints
+
+### 1. Query Agent
+**Endpoint**: `POST /api/agent/query`
+
+**Description**: Process a user query using the RAG agent and return a response based on retrieved book content.
+
+**Request**:
+```json
+{
+  "query": "string (required) - The user's question or query",
+  "top_k": "integer (optional) - Number of content chunks to retrieve (default: 5)",
+  "model": "string (optional) - OpenAI model to use (default: 'gpt-4-turbo')",
+  "temperature": "number (optional) - Response temperature (default: 0.1)"
+}
+```
+
+**Response**:
+```json
+{
+  "status": "string - Request status ('success' or 'error')",
+  "answer": "string - The agent's response to the query",
+  "sources": [
+    {
+      "title": "string - Document title",
+      "url": "string - Source URL",
+      "similarity_score": "number - Relevance score",
+      "chunk_id": "string - Unique chunk identifier",
+      "document_id": "string - Document identifier"
+    }
+  ],
+  "retrieved_chunks": [
+    {
+      "rank": "integer - Rank of the chunk in results",
+      "similarity_score": "number - Similarity score",
+      "content": "string - The retrieved content chunk",
+      "source_url": "string - Source URL",
+      "document_title": "string - Document title",
+      "chunk_id": "string - Chunk identifier",
+      "document_id": "string - Document identifier"
+    }
+  ],
+  "query_id": "string - Unique identifier for the query",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Error Response**:
+```json
+{
+  "status": "string - 'error'",
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+### 2. Health Check
+**Endpoint**: `GET /api/agent/health`
+
+**Description**: Check the health status of the RAG agent service.
+
+**Response**:
+```json
+{
+  "status": "string - 'healthy' or 'unhealthy'",
+  "timestamp": "string - ISO 8601 timestamp",
+  "services": {
+    "openai": "boolean - OpenAI API connectivity status",
+    "qdrant": "boolean - Qdrant connectivity status",
+    "agent": "boolean - Agent initialization status"
+  }
+}
+```
+
+### 3. Agent Configuration
+**Endpoint**: `GET /api/agent/config`
+
+**Description**: Get the current agent configuration.
+
+**Response**:
+```json
+{
+  "model": "string - Current OpenAI model",
+  "temperature": "number - Current temperature setting",
+  "top_k_default": "integer - Default number of chunks to retrieve",
+  "max_chunks": "integer - Maximum number of chunks allowed",
+  "similarity_threshold": "number - Minimum similarity threshold"
+}
+```
+
+## Data Models
+
+### QueryRequest
+- **query**: string (required) - The user's question or query text
+- **top_k**: integer (optional, default: 5) - Number of content chunks to retrieve
+- **model**: string (optional, default: "gpt-4-turbo") - OpenAI model to use
+- **temperature**: number (optional, default: 0.1) - Response temperature
+
+### QueryResponse
+- **status**: string - Request status
+- **answer**: string - The agent's response
+- **sources**: array of Source objects - Provenance information
+- **retrieved_chunks**: array of Chunk objects - Retrieved content chunks
+- **query_id**: string - Unique query identifier
+- **timestamp**: string - ISO 8601 timestamp
+
+### Source
+- **title**: string - Document title
+- **url**: string - Source URL
+- **similarity_score**: number - Relevance score
+- **chunk_id**: string - Chunk identifier
+- **document_id**: string - Document identifier
+
+### Chunk
+- **rank**: integer - Rank in results
+- **similarity_score**: number - Similarity score
+- **content**: string - Retrieved content
+- **source_url**: string - Source URL
+- **document_title**: string - Document title
+- **chunk_id**: string - Chunk identifier
+- **document_id**: string - Document identifier
+
+## Authentication
+All endpoints require authentication via API key in the header:
+```
+Authorization: Bearer {API_KEY}
+```
+
+## Error Codes
+- `AGENT_UNAVAILABLE`: Agent service is not available
+- `RETRIEVAL_FAILED`: Failed to retrieve content from Qdrant
+- `GENERATION_FAILED`: Failed to generate response from OpenAI
+- `INVALID_QUERY`: Query parameter is missing or invalid
+- `CONNECTION_ERROR`: Unable to connect to required services
